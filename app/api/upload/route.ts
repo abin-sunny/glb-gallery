@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import path from "path";
 import Model from "@/models/model";
-import { v4 as uuid } from "uuid";
 import { connectDB } from "@/lib/mongodb";
+// import { createThumbnailFromGLB } from "@/lib/server-thumbnail";
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -15,15 +13,18 @@ export async function POST(req: Request) {
 
   const bytes = await file.arrayBuffer(); // ✅ Convert File to Buffer
   const buffer = Buffer.from(bytes);
+  //   let thumbnailBuffer: Buffer | null = null;
 
-  // const uploadDir = path.join(process.cwd(), "public", "uploads");
-  // const uniqueName = `${uuid()}-${file.name}`;
-  // const filePath = path.join(uploadDir, uniqueName);
-
-  // await writeFile(filePath, buffer); // ✅ Save to filesystem
-
+  //  try {
+  //       const { createThumbnailFromGLB } = await import("@/lib/server-thumbnail");
+  //       thumbnailBuffer = await createThumbnailFromGLB(buffer);
+  //       console.log(thumbnailBuffer+"kjkjkjkjkjkjkjk")
+  //     } catch (thumbErr) {
+  //       console.error("❌ Thumbnail generation failed:", thumbErr);
+  //     }
+  //  const thumbnailBuffer = await createThumbnailFromGLB(buffer);
   await connectDB();
-const sizeInMB = file.size / (1024); // More reliable
+  const sizeInMB = file.size / 1024; // More reliable
   const modelDoc = await Model.create({
     name: file.name.replace(".glb", ""),
     filename: file.name,
