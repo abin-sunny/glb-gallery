@@ -9,7 +9,7 @@ const modelSchema = new mongoose.Schema(
     file: { type: Buffer },
     uploadDate: { type: Date },
     size: { type: String ,required:true},
-    thumbnail: { type: String },
+    thumbnail: { type: Buffer },
   },
   { timestamps: true }
 );
