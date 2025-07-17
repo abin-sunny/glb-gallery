@@ -22,3 +22,18 @@ export async function GET(
      return NextResponse.json(model);
 
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  await connectDB();
+  if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+  }
+  const deleted = await Model.findByIdAndDelete(params.id);
+  if (!deleted) {
+    return NextResponse.json({ error: "Model not found" }, { status: 404 });
+  }
+  return new NextResponse(null, { status: 204 });
+}

@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/mongodb";
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
+  const thumbnail=formData.get("thumbnail") as File;
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -13,6 +14,10 @@ export async function POST(req: Request) {
 
   const bytes = await file.arrayBuffer(); // ✅ Convert File to Buffer
   const buffer = Buffer.from(bytes);
+  const thumBytes=await thumbnail.arrayBuffer();
+  const thumBuffer=Buffer.from(thumBytes);
+  // const thumbnailBuffer = await createThumbnailFromGLB(fileBuffer);
+
   //   let thumbnailBuffer: Buffer | null = null;
 
   //  try {
@@ -32,7 +37,7 @@ export async function POST(req: Request) {
     file: buffer,
     uploadDate: new Date(),
     size: `${sizeInMB.toFixed(1)} KB`,
-    thumbnail: "/placeholder.svg",
+    thumbnail: thumBuffer,
   });
   console.log("Saved saved model:", modelDoc);
 

@@ -7,7 +7,6 @@ export async function GET() {
   try {
     await connectDB();
     const models = await Model.find().sort({ createdAt: -1 });
-    
     return NextResponse.json(models);
   } catch (error) {
     console.error("❌ Failed to fetch models:", error);
