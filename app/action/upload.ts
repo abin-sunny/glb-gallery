@@ -17,12 +17,6 @@ export async function uploadModelAction(formData: FormData) {
   const filename = `${uuid()}.glb`;
   const thumBytes = await thumbnail.arrayBuffer();
   const thumBuffer = Buffer.from(thumBytes);
-  const filepath = path.join(process.cwd(), "public/uploads", filename);
-  // if (!existsSync(uploadDir)) {
-  //   mkdirSync(uploadDir, { recursive: true });
-  // }
-  await fs.writeFile(filepath, buffer);
-
   const sizeInMB = file.size / 1024;
   await Model.create({
     name: file.name.replace(".glb", ""),
