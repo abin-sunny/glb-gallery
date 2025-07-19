@@ -4,13 +4,14 @@ import { Upload, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { modelToImage } from "@/utils/modelToImage";
+import { uploadModelAction } from "@/app/action/upload";
 
 interface UploadAreaProps {
-  data:Promise<Response>
+  // data:Promise<Response>
   onUpload: (model: any) => void;
 }
 
-export default function UploadArea({ onUpload }: UploadAreaProps) {
+export default function UploadArea() {
   const [dragActive, setDragActive] = useState(false);
   const [image, setImage] = useState<string | null>(null);
 
@@ -42,16 +43,18 @@ export default function UploadArea({ onUpload }: UploadAreaProps) {
       const thumbnailBlob = dataURLToBlob(dataUrl);
       formData.append("file", file);
       formData.append("thumbnail", thumbnailBlob, "thumbnail.png");
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      if (!res.ok) {
-        console.error("Upload failed");
-        continue;
-      }
-      const uploadedModel = await res.json();
-      onUpload(uploadedModel);
+      // const res = await fetch("/api/upload", {
+      //   method: "POST",
+      //   body: formData,
+      // });
+
+     try {
+      const result = await uploadModelAction(formData);
+      console.log("Upload success:", result);
+    } catch (err) {
+      console.error("Upload failed", err);
+    }
+      // onUpload(uploadedModel);
     }
   };
 
@@ -113,4 +116,4 @@ export default function UploadArea({ onUpload }: UploadAreaProps) {
       </CardContent>
     </Card>
   );
-} 
+}

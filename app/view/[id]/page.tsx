@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Download } from "lucide-react";
+import { ModelType } from "@/lib/types";
 
 interface ViewPageProps {
   params: { id: string };
@@ -14,7 +15,7 @@ interface ViewPageProps {
 
 export default async function ViewPage({ params }: ViewPageProps) {
   await connectDB();
-  const model = await Model.findById(params.id).lean();
+  const model = await Model.findById(params.id).lean<ModelType>();
   if (!model) {
     return (
       <div className="min-h-screen transition-colors">
@@ -100,7 +101,14 @@ export default async function ViewPage({ params }: ViewPageProps) {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Upload Date</label>
-                    <p className="text-gray-900 dark:text-white">{model.uploadDate?.toLocaleString?.() || String(model.uploadDate)}</p>
+                    <p className="text-gray-900 dark:text-white">{new Date(model.uploadDate).toLocaleString("en-US", {
+                    month: "short", // Jan, Feb, Mar, etc.
+                    day: "numeric", // 1, 2, 3...
+                    // year: "numeric", // 2025
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true, // Optional, for AM/PM
+                  })}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">File Size</label>

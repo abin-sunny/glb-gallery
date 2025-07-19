@@ -19,7 +19,13 @@ function Loader() {
 
 function Model({ url }: { url: string }) {
   const gltf = useGLTF(url);
-  const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  // const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+   const scene = useMemo(() => {
+    if (!gltf.scene) return null;
+    return gltf.scene.clone();
+  }, [gltf.scene]);
+
+  if (!scene) return null;
   return <primitive object={scene} scale={1} />;
 }
 

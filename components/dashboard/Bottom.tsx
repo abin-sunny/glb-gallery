@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { use, useState } from "react";
 import UploadArea from "./UploadArea";
 import { Button } from "../ui/button";
@@ -6,42 +6,61 @@ import ModelGrid from "./ModelGrid";
 import ModelList from "./ModelList";
 import SearchBar from "./SearchBar";
 import { Grid, List } from "lucide-react";
+// import { revalidatePath } from "next/cache";
 interface BottomProps {
-  data: Promise<Response>;
+  data: Promise<ModelType[]>;
+
+}
+export interface ModelType {
+  _id: string;
+  name: string;
+  filename: string;
+  size: string;
+  thumbnail: Buffer;
+  uploadDate: string;
 }
 
 export default function Bottom({ data }: BottomProps) {
-  const model = use(use(data).json());
+  const models = use(data);
+  // const models=use(model.json()) as ModelType[];
+  // console.log(models);
+  // return (
+  //   <div>
+  //     {models.map((item) => (
+  //       <div key={item._id}>{item.name}</div>
+  //     ))}
+  //   </div>
+  // );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [models, setModels] = useState(model);
 
-  const filteredModels = model.filter(
-    () =>
-      model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      model.filename.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredModels = models.filter(
+    (models) =>
+      models.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      models.filename.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleUpload = (model: any) => {
-    setModels((prev) => [model, ...prev]);
-  };
+  // const handleUpload = (model: any) => {
+  //   setModels((prev) => [model, ...prev]);
+  // };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this model?")) return;
-    const res = await fetch(`/api/models/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setModels((prev) => prev.filter((m) => m._id !== id));
-    } else {
-      alert("Failed to delete model");
-    }
-  };
+  // const handleDelete = async (id: string) => {
+  //   if (!confirm("Are you sure you want to delete this model?")) return;
+  //   const res = await fetch(`/api/models/${id}`, { method: "DELETE" });
+  //   // deleteModel(model._id);
+  //   if (res.ok) {
+  //     // setModels((prev) => prev.filter((m) => m._id !== id));
+  //   } else {
+  //     alert("Failed to delete model");
+  //   }
+  // };
 
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Upload Section */}
-        <UploadArea onUpload={handleUpload} />
+        <UploadArea />
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -81,9 +100,9 @@ export default function Bottom({ data }: BottomProps) {
             </p>
           </div>
         ) : viewMode === "grid" ? (
-          <ModelGrid data={model} onDelete={handleDelete} />
+          <ModelGrid models={filteredModels} />
         ) : (
-          <ModelList data={model} onDelete={handleDelete} />
+          <ModelList models={filteredModels} />
         )}
       </div>
     </>
