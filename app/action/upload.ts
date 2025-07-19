@@ -18,7 +18,9 @@ export async function uploadModelAction(formData: FormData) {
   const thumBytes = await thumbnail.arrayBuffer();
   const thumBuffer = Buffer.from(thumBytes);
   const filepath = path.join(process.cwd(), "public/uploads", filename);
-
+  // if (!existsSync(uploadDir)) {
+  //   mkdirSync(uploadDir, { recursive: true });
+  // }
   await fs.writeFile(filepath, buffer);
 
   const sizeInMB = file.size / 1024;
@@ -30,5 +32,5 @@ export async function uploadModelAction(formData: FormData) {
     size: `${sizeInMB.toFixed(1)} KB`,
     thumbnail: thumBuffer,
   });
-   revalidatePath("/");
+  revalidatePath("/");
 }
