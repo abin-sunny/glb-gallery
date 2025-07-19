@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build --turbopack",
-    "dev": "next dev --turbopack",
+    "build": "next build",
+    "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
   },
@@ -67,13 +67,14 @@
     "recharts": "2.15.0",
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7",
     "three": "latest",
+    "tw-animate-css": "^1.3.5",
     "uuid": "^11.1.0",
     "vaul": "^0.9.9",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/formidable": "^3.4.5",
     "@types/gl": "^6.0.5",
     "@types/jsdom": "^21.1.7",
@@ -83,8 +84,10 @@
     "@types/react-dom": "19.1.6",
     "@types/three": "^0.178.1",
     "@types/uuid": "^10.0.0",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "15.4.2",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
   },
   "pnpm": {

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import DarkModeToggle from "@/components/dashboard/DarkModeToggle";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSklton";
 import Bottom from "@/components/dashboard/Bottom";
-
+export const dynamic = "force-dynamic"; // Force dynamic rendering for this page
 export default async function DashboardPage() {
   const data = fetchmodels();
   return (

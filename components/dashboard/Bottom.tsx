@@ -69,7 +69,7 @@ export default function Bottom({ data }: BottomProps) {
           </div>
           <div className="flex gap-2">
             <Button
-              variant={viewMode === "grid" ? "default" : "outline"}
+              variant={viewMode === "grid" ? "default" : "outline-solid"}
               size="sm"
               onClick={() => setViewMode("grid")}
               aria-label="Grid view"
@@ -77,7 +77,7 @@ export default function Bottom({ data }: BottomProps) {
               <Grid className="w-4 h-4" />
             </Button>
             <Button
-              variant={viewMode === "list" ? "default" : "outline"}
+              variant={viewMode === "list" ? "default" : "outline-solid"}
               size="sm"
               onClick={() => setViewMode("list")}
               aria-label="List view"

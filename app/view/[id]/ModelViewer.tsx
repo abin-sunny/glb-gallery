@@ -1,7 +1,13 @@
 "use client";
 import React, { Suspense, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, Html, useProgress, useGLTF } from "@react-three/drei";
+import {
+  OrbitControls,
+  Environment,
+  Html,
+  useProgress,
+  useGLTF,
+} from "@react-three/drei";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
 
@@ -19,21 +25,32 @@ function Loader() {
 
 function Model({ url }: { url: string }) {
   const gltf = useGLTF(url);
-  // const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
-   const scene = useMemo(() => {
-    if (!gltf.scene) return null;
-    return gltf.scene.clone();
-  }, [gltf.scene]);
+  const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  //  const scene = useMemo(() => {
+  //   if (!gltf.scene) return null;
+  //   return gltf.scene.clone();
+  // }, [gltf.scene]);
 
-  if (!scene) return null;
+  // if (!scene) return null;
   return <primitive object={scene} scale={1} />;
 }
 
 export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
   const [resetCamera, setResetCamera] = useState(0);
+  const { progress } = useProgress();
+
+  // Don't use state updates directly in render
+  const [shownProgress, setShownProgress] = useState(0);
+
+  React.useEffect(() => {
+    setShownProgress(progress);
+  }, [progress]);
   return (
-    <div className="relative h-[600px] bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} className="w-full h-full">
+    <div className="relative h-[350px] sm:h-[590px] bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg overflow-hidden">
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        className="w-full h-full"
+      >
         <Suspense fallback={<Loader />}>
           <Environment preset="studio" />
           <ambientLight intensity={0.5} />
@@ -62,4 +79,4 @@ export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
       </div>
     </div>
   );
-} 
+}

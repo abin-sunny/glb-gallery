@@ -95,10 +95,10 @@ export default async function ViewPage({ params }: ViewPageProps) {
                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Name</label>
                     <p className="text-gray-900 dark:text-white">{model.name}</p>
                   </div>
-                  <div>
+                  {/* <div>
                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Filename</label>
                     <p className="text-gray-900 dark:text-white">{model.filename}</p>
-                  </div>
+                  </div> */}
                   <div>
                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Upload Date</label>
                     <p className="text-gray-900 dark:text-white">{new Date(model.uploadDate).toLocaleString("en-US", {

@@ -43,7 +43,7 @@ export default function ModelList({ models,  }: ModelListProps) {
             <img
               src={`/api/models/${model._id}/thumbnail`}
               alt={model.name}
-              className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 flex-shrink-0"
+              className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 shrink-0"
               loading="lazy"
             />
             <div className="flex-1 min-w-0">
