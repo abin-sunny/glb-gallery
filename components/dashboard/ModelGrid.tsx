@@ -1,21 +1,21 @@
 "use client";
-import React, { startTransition, use } from "react";
+import React, { startTransition } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { ModelType } from "./Bottom";
-import { deleteModelAction } from '@/app/action/deleteModelAction';
+import { ModelType } from "./ModelGallery";
+import { deleteModelAction } from "@/app/action/deleteModelAction";
+import Image from 'next/image';
 
 interface ModelGridProps {
   models: ModelType[];
-
 }
 
 export default function ModelGrid({ models }: ModelGridProps) {
   const handleDelete = (id: string) => {
-    if (!confirm('Delete this model?')) return;
+    if (!confirm("Delete this model?")) return;
 
     startTransition(() => {
       deleteModelAction(id);
@@ -26,13 +26,13 @@ export default function ModelGrid({ models }: ModelGridProps) {
       {models.map((model) => (
         <Card
           key={model._id}
-          className=" hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group dark:bg-gray-800 dark:border-gray-700"
+          className=" hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group bg-secondary dark:border-gray-700"
         >
           <CardContent className="p-4">
             <Link href={`/view/${model._id}`}>
               <div className="aspect-square">
                 {" "}
-                <img
+                <Image
                   src={`/api/models/${model._id}/thumbnail`}
                   alt={model.name}
                   className="w-full h-full object-cover rounded mb-2 bg-gray-100 dark:bg-gray-700"
@@ -48,18 +48,14 @@ export default function ModelGrid({ models }: ModelGridProps) {
                 </span>
                 <span className="text-xs text-gray-500">
                   {new Date(model.uploadDate).toLocaleString("en-US", {
-                    month: "short", // Jan, Feb, Mar, etc.
-                    day: "numeric", // 1, 2, 3...
-                    // year: "numeric", // 2025
+                    month: "short",
+                    day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true, // Optional, for AM/PM
+                    hour12: true,
                   })}
                 </span>
               </div>
-              {/* <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
-                {model.filename}
-              </p> */}
             </Link>
             <div className="flex items-center justify-between">
               <Badge
@@ -72,7 +68,7 @@ export default function ModelGrid({ models }: ModelGridProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() =>handleDelete(model._id)}
+                onClick={() => handleDelete(model._id)}
                 className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
                 aria-label="Delete model"
               >

@@ -1,46 +1,38 @@
 "use client";
-import React, { startTransition, Suspense, use } from "react";
+import React, { startTransition } from "react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { ModelType } from "./Bottom";
-import { deleteModelAction } from '@/app/action/deleteModelAction';
+import { ModelType } from "./ModelGallery";
+import { deleteModelAction } from "@/app/action/deleteModelAction";
+import Image from "next/image";
 
 interface ModelListProps {
   models: ModelType[];
- 
 }
-function Loader() {
-  return (
-    <div className="text-center">
-      <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-      <p className="text-gray-600">Loading...</p>
-    </div>
-  );
-}
-export default function ModelList({ models,  }: ModelListProps) {
+
+export default function ModelList({ models }: ModelListProps) {
   const handleDelete = (id: string) => {
-    if (!confirm('Delete this model?')) return;
+    if (!confirm("Delete this model?")) return;
 
     startTransition(() => {
       deleteModelAction(id);
     });
   };
-  // const model = use(use(data).json());
   return (
     <div className="space-y-4">
       {models.map((model) => (
         <Card
           key={model._id}
-          className="flex items-center gap-4 p-4 dark:bg-gray-800 dark:border-gray-700"
+          className="flex items-center gap-4 p-4 bg-secondary dark:border-gray-700"
         >
           <Link
             href={`/view/${model._id}`}
             className="flex items-center gap-4 flex-1 min-w-0"
           >
-            <img
+            <Image
               src={`/api/models/${model._id}/thumbnail`}
               alt={model.name}
               className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 shrink-0"
@@ -56,12 +48,11 @@ export default function ModelList({ models,  }: ModelListProps) {
               <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
                 <span>
                   {new Date(model.uploadDate).toLocaleString("en-US", {
-                    month: "short", // Jan, Feb, Mar, etc.
-                    day: "numeric", // 1, 2, 3...
-                    // year: "numeric", // 2025
+                    month: "short",
+                    day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true, // Optional, for AM/PM
+                    hour12: true,
                   })}
                 </span>
                 <Badge
@@ -76,7 +67,7 @@ export default function ModelList({ models,  }: ModelListProps) {
           <Button
             variant="ghost"
             size="icon"
-              onClick={() => handleDelete(model._id)}
+            onClick={() => handleDelete(model._id)}
             className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
             aria-label="Delete model"
           >

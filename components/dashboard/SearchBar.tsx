@@ -16,7 +16,7 @@ export default function SearchBar({ searchTerm, setSearchTerm }: SearchBarProps)
         placeholder="Search models..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="pl-10 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+        className="pl-10 bg-secondary dark:border-gray-600 dark:text-white"
       />
     </div>
   );

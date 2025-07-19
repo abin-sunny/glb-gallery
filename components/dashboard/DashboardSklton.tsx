@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Controls Skeleton */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -29,7 +29,7 @@ export function DashboardSkeleton() {
 
 export function ModelCardSkeleton() {
   return (
-    <Card className="hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group dark:bg-gray-800 dark:border-gray-700">
+    <Card className="hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group bg-secondary dark:border-gray-700">
       <CardContent className="p-4">
         <div className="aspect-square mb-2">
           <Skeleton className="w-full h-full object-cover rounded bg-gray-100 dark:bg-gray-700" />
@@ -54,7 +54,7 @@ export function ModelListSkeleton() {
   return (
     <div className="space-y-4">
       {Array.from({ length: 6 }).map((_, index) => (
-        <Card key={index} className="dark:bg-gray-800 dark:border-gray-700">
+        <Card key={index} className="bg-secondary dark:border-gray-700">
           <CardContent className="p-4 flex items-center gap-4">
             <div className="shrink-0">
               <Skeleton className="w-16 h-16 rounded-lg" />
@@ -77,99 +77,9 @@ export function ModelListSkeleton() {
   );
 }
 
-// export function ViewPageSkeleton() {
-//   return (
-//     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-//       {/* Header Skeleton */}
-//       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <div className="flex items-center justify-between py-4">
-//             <div className="flex items-center gap-4">
-//               <Skeleton className="h-8 w-16" />
-//               <div>
-//                 <Skeleton className="h-7 w-48 mb-1" />
-//                 <Skeleton className="h-4 w-32" />
-//               </div>
-//             </div>
-//             <div className="flex items-center gap-2">
-//               <Skeleton className="h-8 w-8" />
-//               <Skeleton className="h-6 w-16" />
-//               <Skeleton className="h-8 w-24" />
-//             </div>
-//           </div>
-//         </div>
-//       </header>
-
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-//         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-//           {/* 3D Viewer Skeleton */}
-//           <div className="lg:col-span-3">
-//             <Card className="dark:bg-gray-800 dark:border-gray-700">
-//               <CardContent className="p-0">
-//                 <div className="relative h-[600px] bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-//                   <div className="absolute inset-0 flex items-center justify-center">
-//                     <div className="text-center">
-//                       <Skeleton className="w-16 h-16 rounded-full mx-auto mb-4" />
-//                       <Skeleton className="h-4 w-32 mx-auto" />
-//                     </div>
-//                   </div>
-//                   {/* Controls Overlay Skeleton */}
-//                   <div className="absolute top-4 right-4">
-//                     <Skeleton className="h-8 w-8" />
-//                   </div>
-//                 </div>
-//               </CardContent>
-//             </Card>
-//           </div>
-
-//           {/* Model Info Skeleton */}
-//           <div className="space-y-6">
-//             <Card className="dark:bg-gray-800 dark:border-gray-700">
-//               <CardHeader>
-//                 <Skeleton className="h-6 w-32" />
-//               </CardHeader>
-//               <CardContent className="space-y-4">
-//                 {Array.from({ length: 4 }).map((_, index) => (
-//                   <div key={index}>
-//                     <Skeleton className="h-4 w-16 mb-1" />
-//                     <Skeleton className="h-5 w-24" />
-//                   </div>
-//                 ))}
-//               </CardContent>
-//             </Card>
-
-//             <Card className="dark:bg-gray-800 dark:border-gray-700">
-//               <CardHeader>
-//                 <Skeleton className="h-6 w-20" />
-//               </CardHeader>
-//               <CardContent className="space-y-3">
-//                 <div>
-//                   <Skeleton className="h-4 w-12 mb-2" />
-//                   <div className="space-y-1 ml-4">
-//                     <Skeleton className="h-3 w-32" />
-//                     <Skeleton className="h-3 w-36" />
-//                     <Skeleton className="h-3 w-28" />
-//                   </div>
-//                 </div>
-//                 <div>
-//                   <Skeleton className="h-4 w-12 mb-2" />
-//                   <div className="space-y-1 ml-4">
-//                     <Skeleton className="h-3 w-24" />
-//                     <Skeleton className="h-3 w-32" />
-//                   </div>
-//                 </div>
-//               </CardContent>
-//             </Card>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
 export function UploadSkeleton() {
   return (
-    <Card className="mb-8 dark:bg-gray-800 dark:border-gray-700">
+    <Card className="mb-8 bg-secondary dark:border-gray-700">
       <CardContent className="p-6">
         <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center animate-pulse">
           <div className="mx-auto h-12 w-12 bg-gray-200 dark:bg-gray-600 rounded mb-4" />

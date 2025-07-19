@@ -14,8 +14,6 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
     headers: {
       "Content-Type": "image/png",
       "Content-Disposition": `inline; filename="thumbnail.png"`,
-            // "Content-Disposition": `inline; filename="${model.filename.replace(/\.glb$/, ".png")}"`,
-
     },
   });
 }

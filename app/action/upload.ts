@@ -4,7 +4,6 @@ import { connectDB } from "@/lib/mongodb";
 import fs from "fs/promises";
 import path from "path";
 import { v4 as uuid } from "uuid";
-import { IncomingForm } from "formidable";
 import Model from "@/models/model";
 import { revalidatePath } from "next/cache";
 
@@ -23,7 +22,7 @@ export async function uploadModelAction(formData: FormData) {
   await fs.writeFile(filepath, buffer);
 
   const sizeInMB = file.size / 1024;
-  const modelDoc = await Model.create({
+  await Model.create({
     name: file.name.replace(".glb", ""),
     filename: file.name,
     file: buffer,

@@ -26,27 +26,20 @@ function Loader() {
 function Model({ url }: { url: string }) {
   const gltf = useGLTF(url);
   const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
-  //  const scene = useMemo(() => {
-  //   if (!gltf.scene) return null;
-  //   return gltf.scene.clone();
-  // }, [gltf.scene]);
 
-  // if (!scene) return null;
   return <primitive object={scene} scale={1} />;
 }
 
 export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
   const [resetCamera, setResetCamera] = useState(0);
   const { progress } = useProgress();
-
-  // Don't use state updates directly in render
   const [shownProgress, setShownProgress] = useState(0);
 
   React.useEffect(() => {
     setShownProgress(progress);
   }, [progress]);
   return (
-    <div className="relative h-[350px] sm:h-[590px] bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg overflow-hidden">
+    <div className="relative h-[350px] sm:h-[590px] bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg overflow-hidden">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 50 }}
         className="w-full h-full"
@@ -72,7 +65,7 @@ export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
           size="sm"
           variant="secondary"
           onClick={() => setResetCamera((prev) => prev + 1)}
-          className="bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 dark:text-white"
+          className="bg-white/90 hover:bg-secondary/90 dark:hover:bg-gray-800 dark:text-white"
         >
           <RotateCcw className="w-4 h-4" />
         </Button>

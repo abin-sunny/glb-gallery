@@ -19,8 +19,7 @@ export async function GET(
     return NextResponse.json({ error: "Model not found" }, { status: 404 });
   }
 
-     return NextResponse.json(model);
-
+  return NextResponse.json(model);
 }
 
 export async function DELETE(

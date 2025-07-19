@@ -3,9 +3,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Header Skeleton */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <header className="bg-secondary border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center gap-4">
@@ -28,9 +28,9 @@ export default function Loading() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* 3D Viewer Skeleton */}
           <div className="lg:col-span-3">
-            <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <Card className="bg-secondary dark:border-gray-700 p-0">
               <CardContent className="p-0">
-                <div className="relative h-[600px] bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                <div className="relative  h-[350px] sm:h-[590px] bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <Skeleton className="w-16 h-16 rounded-full mx-auto mb-4" />
@@ -48,7 +48,7 @@ export default function Loading() {
 
           {/* Model Info Skeleton */}
           <div className="space-y-6">
-            <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <Card className="bg-secondary dark:border-gray-700">
               <CardHeader>
                 <Skeleton className="h-6 w-32" />
               </CardHeader>
@@ -62,7 +62,7 @@ export default function Loading() {
               </CardContent>
             </Card>
 
-            <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <Card className="bg-secondary dark:border-gray-700">
               <CardHeader>
                 <Skeleton className="h-6 w-20" />
               </CardHeader>

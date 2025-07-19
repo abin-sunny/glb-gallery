@@ -6,11 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { modelToImage } from "@/utils/modelToImage";
 import { uploadModelAction } from "@/app/action/upload";
 
-interface UploadAreaProps {
-  // data:Promise<Response>
-  onUpload: (model: any) => void;
-}
-
 export default function UploadArea() {
   const [dragActive, setDragActive] = useState(false);
   const [image, setImage] = useState<string | null>(null);
@@ -43,18 +38,13 @@ export default function UploadArea() {
       const thumbnailBlob = dataURLToBlob(dataUrl);
       formData.append("file", file);
       formData.append("thumbnail", thumbnailBlob, "thumbnail.png");
-      // const res = await fetch("/api/upload", {
-      //   method: "POST",
-      //   body: formData,
-      // });
 
-     try {
-      const result = await uploadModelAction(formData);
-      console.log("Upload success:", result);
-    } catch (err) {
-      console.error("Upload failed", err);
-    }
-      // onUpload(uploadedModel);
+      try {
+        const result = await uploadModelAction(formData);
+        console.log("Upload success:", result);
+      } catch (err) {
+        console.error("Upload failed", err);
+      }
     }
   };
 
@@ -76,10 +66,31 @@ export default function UploadArea() {
   };
 
   return (
-    <Card className="mb-8 dark:bg-gray-800 dark:border-gray-700">
+    // for mobile
+    <Card className="mb-8 bg-secondary dark:border-gray-700">
       <CardContent className="p-6">
+        <div className="block sm:hidden text-center">
+          <input
+            type="file"
+            accept=".glb"
+            multiple
+            className="hidden"
+            id="file-upload-mobile"
+            onChange={(e) => handleFileUpload(e.target.files)}
+          />
+          <label htmlFor="file-upload-mobile">
+            <Button asChild className="cursor-pointer">
+              <span>
+                <Plus className="w-4 h-4 mr-2" />
+                Choose Files
+              </span>
+            </Button>
+          </label>
+        </div>
+
+        {/* for desktoop */}
         <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          className={`hidden sm:block  border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
             dragActive
               ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
               : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
