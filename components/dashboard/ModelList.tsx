@@ -33,6 +33,8 @@ export default function ModelList({ models }: ModelListProps) {
             className="flex items-center gap-4 flex-1 min-w-0"
           >
             <Image
+              width={64}
+              height={64}
               src={`/api/models/${model._id}/thumbnail`}
               alt={model.name}
               className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 shrink-0"

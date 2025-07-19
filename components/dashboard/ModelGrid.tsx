@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { ModelType } from "./ModelGallery";
 import { deleteModelAction } from "@/app/action/deleteModelAction";
-import Image from 'next/image';
+import Image from "next/image";
 
 interface ModelGridProps {
   models: ModelType[];
@@ -33,6 +33,8 @@ export default function ModelGrid({ models }: ModelGridProps) {
               <div className="aspect-square">
                 {" "}
                 <Image
+                  width={64}
+                  height={64}
                   src={`/api/models/${model._id}/thumbnail`}
                   alt={model.name}
                   className="w-full h-full object-cover rounded mb-2 bg-gray-100 dark:bg-gray-700"

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
@@ -11,14 +11,14 @@ export default function Loading() {
             <div className="flex items-center gap-4">
               <Skeleton className="h-8 w-16" />
               <div>
-                <Skeleton className="h-7 w-48 mb-1" />
-                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-8 w-20 rounded-md" />
+                <Skeleton className="h-6 w-40 rounded" />
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-8" />
-              <Skeleton className="h-6 w-16" />
-              <Skeleton className="h-8 w-24" />
+              <Skeleton className="h-8 w-10 rounded-md" />
+              <Skeleton className="h-8 w-24 rounded-md" />
+              <Skeleton className="h-8 w-10 rounded-full" />
             </div>
           </div>
         </div>
@@ -30,18 +30,12 @@ export default function Loading() {
           <div className="lg:col-span-3">
             <Card className="bg-secondary dark:border-gray-700 p-0">
               <CardContent className="p-0">
-                <div className="relative  h-[350px] sm:h-[590px] bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <Skeleton className="w-16 h-16 rounded-full mx-auto mb-4" />
-                      <Skeleton className="h-4 w-32 mx-auto" />
-                    </div>
-                  </div>
-                  {/* Controls Overlay Skeleton */}
-                  <div className="absolute top-4 right-4">
-                    <Skeleton className="h-8 w-8" />
-                  </div>
-                </div>
+              <div className="h-[350px] sm:h-[590px] bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+   <div className="space-y-4 text-center">
+    <Skeleton className="w-20 h-20 rounded-full mx-auto" />
+     <Skeleton className="h-4 w-32 mx-auto" />
+   </div>
+ </div>
               </CardContent>
             </Card>
           </div>
@@ -53,7 +47,7 @@ export default function Loading() {
                 <Skeleton className="h-6 w-32" />
               </CardHeader>
               <CardContent className="space-y-4">
-                {Array.from({ length: 4 }).map((_, index) => (
+                {Array.from({ length: 3 }).map((_, index) => (
                   <div key={index}>
                     <Skeleton className="h-4 w-16 mb-1" />
                     <Skeleton className="h-5 w-24" />
