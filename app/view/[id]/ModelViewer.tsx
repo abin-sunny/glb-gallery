@@ -1,6 +1,7 @@
 "use client";
-import React, { Suspense, useMemo, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 import {
   OrbitControls,
   Environment,
@@ -25,9 +26,34 @@ function Loader() {
 
 function Model({ url }: { url: string }) {
   const gltf = useGLTF(url);
-  const scene = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  const { camera, scene } = useThree();
 
-  return <primitive object={scene} scale={1} />;
+  useEffect(() => {
+    const model = gltf.scene.clone();
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    model.position.sub(center);
+
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const distance = maxDim === 0 ? 5 : maxDim * 1.5;
+    camera.position.set(distance, distance, distance);
+    camera.lookAt(0, 0, 0);
+
+    // Remove previous model if any
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+    scene.add(model);
+
+    // Clean up
+    return () => {
+      scene.remove(model);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gltf, camera, scene]);
+
+  return null;
 }
 
 export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
@@ -45,7 +71,7 @@ export default function ModelViewer({ modelUrl }: { modelUrl: string }) {
         className="w-full h-full"
       >
         <Suspense fallback={<Loader />}>
-          <Environment preset="studio" />
+          <Environment preset="apartment" />
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <Model url={modelUrl} />

@@ -8,12 +8,12 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
-
+ const model = await Model.findById(params.id).lean();
   if (!mongoose.Types.ObjectId.isValid(params.id)) {
     return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
   }
 
-  const model = await Model.findById(params.id).lean();
+ 
 
   if (!model) {
     return NextResponse.json({ error: "Model not found" }, { status: 404 });

@@ -8,7 +8,6 @@ A full-stack web application for uploading, previewing, and managing 3D `.glb` m
 - 🖼️ Generate and save thumbnails server-side using Three.js
 - 📂 View models in an interactive gallery
 - 🔍 View model metadata (e.g., size, upload date, etc.)
-- 🗑️ Delete models with real-time feedback using `startTransition`
 - 🌓 Light/dark mode support (ShadCN UI)
 - 📦 Download `.glb` model files
 - 🛡️ Uses REST APIs and server-side rendering for performance
@@ -24,6 +23,12 @@ A full-stack web application for uploading, previewing, and managing 3D `.glb` m
 | Frontend       | Next.js 15, React, TypeScript |
 | 3D Rendering   | Three.js, GLTFLoader, Canvas/WebGL |
 | Backend        | Node.js, API Routes, Mongoose |
-| Database       | MongoDB (Binary file storage in GridFS or Buffer) |
+| Database       | MongoDB |
 | Styling        | TailwindCSS, ShadCN UI, Lucide Icons |
 
+## 📦 Installation
+
+```bash
+git clone https://github.com/abin-sunny/3d-model-gallery.git
+cd 3d-model-gallery
+npm install

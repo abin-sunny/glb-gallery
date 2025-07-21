@@ -142,7 +142,6 @@ export default function UploadArea() {
         formData.append("file", file);
         formData.append("thumbnail", blob, "thumbnail.png");
 
-        await uploadModelAction(formData);
         toast.promise(uploadModelAction(formData), {
           loading: "Uploading...",
           success: "Model uploaded successfully",

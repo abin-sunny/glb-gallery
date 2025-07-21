@@ -8,14 +8,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Download } from "lucide-react";
 import { ModelType } from "@/lib/types";
-
 interface ViewPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ViewPage({ params }: ViewPageProps) {
   await connectDB();
-  const model = await Model.findById(params.id).lean<ModelType>();
+  const { id } = await params;
+
+  if (!id) return <div>Model ID is required</div>;
+
+  const model = await Model.findById(id).lean<ModelType>();
+  await connectDB();
   if (!model) {
     return (
       <div className="min-h-screen transition-colors">
@@ -40,7 +44,7 @@ export default async function ViewPage({ params }: ViewPageProps) {
       </div>
     );
   }
-  const modelUrl = `/api/models/${params.id}/file`;
+  const modelUrl = `/api/models/${id}/file`;
   return (
     <div className="min-h-screen transition-colors">
       <div className="min-h-screen bg-background">
