@@ -131,6 +131,13 @@ export default function UploadArea() {
       toast.warning("Please upload .glb files only.");
       return;
     }
+    const MAX_FILE_SIZE = 1 * 1024 * 1024;
+    const oversizedFiles = glbFiles.filter((f) => f.size > MAX_FILE_SIZE);
+
+    if (oversizedFiles.length > 0) {
+      toast.warning("Each .glb file must be less than 1MB.");
+      return;
+    }
     for (const file of glbFiles) {
       const formData = new FormData();
       const bytes = await file.arrayBuffer();
