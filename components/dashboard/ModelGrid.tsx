@@ -8,18 +8,27 @@ import { Trash2 } from "lucide-react";
 import { ModelType } from "./ModelGallery";
 import { deleteModelAction } from "@/app/action/deleteModelAction";
 import Image from "next/image";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 interface ModelGridProps {
   models: ModelType[];
 }
 
 export default function ModelGrid({ models }: ModelGridProps) {
-  const handleDelete = (id: string) => {
-    if (!confirm("Delete this model?")) return;
-
+  const handleDelete = async (id: string) => {
     startTransition(() => {
       deleteModelAction(id);
     });
+    toast.success("Deleted successfully.");
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -67,15 +76,25 @@ export default function ModelGrid({ models }: ModelGridProps) {
                 {model.size}
               </Badge>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => handleDelete(model._id)}
-                className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
-                aria-label="Delete model"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  {" "}
+                  <Trash2 className="w-5 h-5 text-red-400" />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you really want to delete?
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDelete(model._id)}>
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </CardContent>
         </Card>

@@ -1,23 +1,41 @@
 "use client";
-import React, { useState } from "react";
+
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon } from "lucide-react";
 
 export default function DarkModeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-    document.documentElement.classList.toggle("dark");
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  const handleSetTheme = (theme: string) => {
+    const switchTheme = () => setTheme(theme);
+    if (!document.startViewTransition) {
+      switchTheme();
+    } else {
+      document.startViewTransition(switchTheme);
+    }
   };
+
   return (
     <Button
       variant="outline"
       size="sm"
-      onClick={toggleDarkMode}
+      onClick={() => handleSetTheme(theme === "dark" ? "light" : "dark")}
       className="border-gray-300 dark:border-gray-600 bg-transparent"
       aria-label="Toggle dark mode"
     >
-      {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {theme === "dark" ? (
+        <Sun className="w-4 h-4" />
+      ) : (
+        <Moon className="w-4 h-4" />
+      )}
     </Button>
   );
 }

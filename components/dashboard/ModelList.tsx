@@ -1,80 +1,102 @@
 "use client";
 import React, { startTransition } from "react";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { ModelType } from "./ModelGallery";
 import { deleteModelAction } from "@/app/action/deleteModelAction";
 import Image from "next/image";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 interface ModelListProps {
   models: ModelType[];
 }
 
 export default function ModelList({ models }: ModelListProps) {
-  const handleDelete = (id: string) => {
-    if (!confirm("Delete this model?")) return;
-
+  const handleDelete = async (id: string) => {
     startTransition(() => {
       deleteModelAction(id);
     });
+    toast.success("deleted");
   };
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex flex-col">
       {models.map((model) => (
         <Card
           key={model._id}
-          className="flex items-center gap-4 p-4 bg-secondary dark:border-gray-700"
+          className="hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group dark:bg-gray-800 dark:border-gray-700"
         >
-          <Link
-            href={`/view/${model._id}`}
-            className="flex items-center gap-4 flex-1 min-w-0"
-          >
-            <Image
-              width={64}
-              height={64}
-              src={`/api/models/${model._id}/thumbnail`}
-              alt={model.name}
-              className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 shrink-0"
-              loading="lazy"
-            />
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-gray-900 dark:text-white truncate mb-1">
-                {model.name}
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 truncate mb-2">
-                {model.filename}
-              </p>
-              <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                <span>
-                  {new Date(model.uploadDate).toLocaleString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </span>
-                <Badge
-                  variant="secondary"
-                  className="dark:bg-gray-700 dark:text-gray-300"
-                >
-                  {model.size}
-                </Badge>
+          <CardContent className="p-4 flex items-center gap-4">
+            <Link
+              href={`/view/${model._id}`}
+              className="flex items-center gap-4 flex-1"
+            >
+              <div className="flex-shrink-0">
+                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden w-16 h-16">
+                  <Image
+                    width={64}
+                    height={64}
+                    src={`/api/models/${model._id}/thumbnail`}
+                    alt={model.name}
+                    className="w-16 h-16 object-cover rounded bg-gray-100 dark:bg-gray-700 shrink-0"
+                    loading="lazy"
+                  />
+                </div>
               </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium text-gray-900 dark:text-white truncate mb-1">
+                  {model.name}
+                </h3>
+
+                <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                  <span>
+                    {" "}
+                    {new Date(model.uploadDate).toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </span>
+                  <span>{model.size}</span>
+                </div>
+              </div>
+            </Link>
+
+            <div className="flex-shrink-0">
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  {" "}
+                  <Trash2 className="w-5 h-5 text-red-400" />
+                </AlertDialogTrigger>
+                <AlertDialogContent className="dark:bg-gray-800 dark:border-gray-700">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="dark:text-white">
+                      Delete Model
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDelete(model._id)}>
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => handleDelete(model._id)}
-            className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
-            aria-label="Delete model"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          </CardContent>
         </Card>
       ))}
     </div>

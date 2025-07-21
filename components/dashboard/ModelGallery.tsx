@@ -37,6 +37,7 @@ export default function ModelGallery({ data }: ModelGalleryProps) {
         </div>
         <div className="flex gap-2">
           <Button
+          className="w-10 h-10"
             variant={viewMode === "grid" ? "default" : "outline"}
             size="sm"
             onClick={() => setViewMode("grid")}
@@ -45,6 +46,7 @@ export default function ModelGallery({ data }: ModelGalleryProps) {
             <Grid className="w-4 h-4" />
           </Button>
           <Button
+           className="w-10 h-10"
             variant={viewMode === "list" ? "default" : "outline"}
             size="sm"
             onClick={() => setViewMode("list")}
@@ -55,7 +57,6 @@ export default function ModelGallery({ data }: ModelGalleryProps) {
         </div>
       </div>
 
-      {/* Model Grid/List */}
       {filteredModels.length === 0 ? (
         <div className="text-center text-gray-400 dark:text-gray-500 py-12">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">

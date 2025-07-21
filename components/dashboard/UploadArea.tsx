@@ -3,47 +3,150 @@ import React, { useState } from "react";
 import { Upload, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { modelToImage } from "@/utils/modelToImage";
+import * as THREE from "three";
 import { uploadModelAction } from "@/app/action/upload";
+import { toast } from "sonner";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 export default function UploadArea() {
   const [dragActive, setDragActive] = useState(false);
   const [image, setImage] = useState<string | null>(null);
 
-  const dataURLToBlob = (dataUrl: string): Blob => {
-    const [header, base64] = dataUrl.split(",");
-    const mimeMatch = header.match(/:(.*?);/);
-    const mime = mimeMatch ? mimeMatch[1] : "image/png";
-    const byteString = atob(base64);
-    const byteArray = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      byteArray[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([byteArray], { type: mime });
+  const setupScene = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = 1024;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      preserveDrawingBuffer: true,
+      antialias: true,
+    });
+    renderer.setSize(1024, 1024);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0xffffff, 0);
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.set(1, 1, 2);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambient);
+
+    return { canvas, renderer, scene, camera };
+  };
+
+  const processModel = (
+    gltf: any,
+    scene: THREE.Scene,
+    camera: THREE.PerspectiveCamera
+  ) => {
+    const model = gltf.scene;
+
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    model.position.sub(center);
+
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const distance = maxDim;
+    camera.position.set(distance, distance, distance);
+    camera.lookAt(0, 0, 0);
+
+    scene.add(model);
+  };
+
+  const canvasToBlob = (
+    canvas: HTMLCanvasElement,
+    dataURL: string
+  ): Promise<{ dataURL: string; blob: Blob }> => {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve({ dataURL, blob });
+          } else {
+            reject(new Error("Failed to generate blob"));
+          }
+        },
+        "image/png",
+        1.0
+      );
+    });
+  };
+
+  const generateThumbnail = (
+    arrayBuffer: ArrayBuffer
+  ): Promise<{ dataURL: string; blob: Blob }> => {
+    return new Promise((resolve, reject) => {
+      const { canvas, renderer, scene, camera } = setupScene();
+
+      const blob = new Blob([arrayBuffer], { type: "model/gltf-binary" });
+      const url = URL.createObjectURL(blob);
+
+      const loader = new GLTFLoader();
+      loader.load(
+        url,
+        async (gltf) => {
+          try {
+            processModel(gltf, scene, camera);
+            renderer.render(scene, camera);
+            renderer.render(scene, camera);
+            const dataURL = renderer.domElement.toDataURL("image/png", 1.0);
+
+            try {
+              const result = await canvasToBlob(canvas, dataURL);
+              resolve(result);
+            } catch (error) {
+              reject(error instanceof Error ? error : new Error(String(error)));
+            } finally {
+              URL.revokeObjectURL(url);
+              renderer.dispose();
+            }
+          } catch (error) {
+            URL.revokeObjectURL(url);
+            renderer.dispose();
+            reject(error instanceof Error ? error : new Error(String(error)));
+          }
+        },
+        undefined,
+        (error) => {
+          URL.revokeObjectURL(url);
+          renderer.dispose();
+          reject(error instanceof Error ? error : new Error(String(error)));
+        }
+      );
+    });
   };
 
   const handleFileUpload = async (files: FileList | null) => {
     if (!files) return;
     const glbFiles = Array.from(files).filter((f) => f.name.endsWith(".glb"));
     if (glbFiles.length === 0) {
-      alert("Please upload a .glb file only.");
+      toast.warning("Please upload .glb files only.");
       return;
     }
     for (const file of glbFiles) {
       const formData = new FormData();
       const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const dataUrl = await modelToImage(buffer.buffer);
-      setImage(dataUrl);
-      const thumbnailBlob = dataURLToBlob(dataUrl);
-      formData.append("file", file);
-      formData.append("thumbnail", thumbnailBlob, "thumbnail.png");
 
       try {
-        const result = await uploadModelAction(formData);
-        console.log("Upload success:", result);
+        const { dataURL, blob } = await generateThumbnail(bytes);
+        setImage(dataURL);
+
+        formData.append("file", file);
+        formData.append("thumbnail", blob, "thumbnail.png");
+
+        await uploadModelAction(formData);
+        toast.success("Upload success:");
       } catch (err) {
-        console.error("Upload failed", err);
+        toast.error("Upload failed");
+        console.error(err);
       }
     }
   };
