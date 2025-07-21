@@ -1,9 +1,6 @@
 "use server";
 
 import { connectDB } from "@/lib/mongodb";
-import fs from "fs/promises";
-import path from "path";
-import { v4 as uuid } from "uuid";
 import Model from "@/models/model";
 import { revalidatePath } from "next/cache";
 
