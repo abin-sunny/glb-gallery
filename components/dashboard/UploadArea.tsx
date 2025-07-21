@@ -143,7 +143,11 @@ export default function UploadArea() {
         formData.append("thumbnail", blob, "thumbnail.png");
 
         await uploadModelAction(formData);
-        toast.success("Upload success:");
+        toast.promise(uploadModelAction(formData), {
+          loading: "Uploading...",
+          success: "Model uploaded successfully",
+          error: "Failed to upload model",
+        });
       } catch (err) {
         toast.error("Upload failed");
         console.error(err);

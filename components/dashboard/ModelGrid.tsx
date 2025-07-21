@@ -25,10 +25,11 @@ interface ModelGridProps {
 
 export default function ModelGrid({ models }: ModelGridProps) {
   const handleDelete = async (id: string) => {
-    startTransition(() => {
-      deleteModelAction(id);
+    toast.promise(deleteModelAction(id), {
+      loading: "Deleting...",
+      success: "Model deleted successfully",
+      error: "Failed to delete model",
     });
-    toast.success("Deleted successfully.");
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

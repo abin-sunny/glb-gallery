@@ -23,10 +23,11 @@ interface ModelListProps {
 
 export default function ModelList({ models }: ModelListProps) {
   const handleDelete = async (id: string) => {
-    startTransition(() => {
-      deleteModelAction(id);
+   toast.promise(deleteModelAction(id), {
+      loading: "Deleting...",
+      success: "Model deleted successfully",
+      error: "Failed to delete model",
     });
-    toast.success("deleted");
   };
   return (
     <div className="space-y-4 flex flex-col">
