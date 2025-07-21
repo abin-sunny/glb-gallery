@@ -23,7 +23,7 @@ interface ModelListProps {
 
 export default function ModelList({ models }: ModelListProps) {
   const handleDelete = async (id: string) => {
-   toast.promise(deleteModelAction(id), {
+    toast.promise(deleteModelAction(id), {
       loading: "Deleting...",
       success: "Model deleted successfully",
       error: "Failed to delete model",
@@ -54,7 +54,10 @@ export default function ModelList({ models }: ModelListProps) {
                 </div>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-gray-900 dark:text-white truncate mb-1">
+                <h3
+                  className="font-medium text-gray-900 dark:text-white mb-1
+             truncate sm:truncate-none max-w-[10ch] sm:max-w-none"
+                >
                   {model.name}
                 </h3>
 

@@ -54,8 +54,10 @@ export default function ModelGrid({ models }: ModelGridProps) {
 
               <div className="flex justify-between items-center text-gray-500 dark:text-gray-400">
                 <span>
-                  <h3 className="font-medium text-gray-900 dark:text-white truncate mb-1 q  ">
-                    {model.name}
+                  <h3 className="font-medium text-gray-900 dark:text-white truncate mb-1">
+                    {model.name.length > 13
+                      ? model.name.slice(0, 13) + "..."
+                      : model.name}
                   </h3>
                 </span>
                 <span className="text-xs text-gray-500">
