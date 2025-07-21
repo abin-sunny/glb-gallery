@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { modelToImage } from "@/utils/modelToImage";
 import { uploadModelAction } from "@/app/action/upload";
+import { toast } from "sonner";
 
 export default function UploadArea() {
   const [dragActive, setDragActive] = useState(false);
   const [image, setImage] = useState<string | null>(null);
-
   const dataURLToBlob = (dataUrl: string): Blob => {
     const [header, base64] = dataUrl.split(",");
     const mimeMatch = header.match(/:(.*?);/);
@@ -26,7 +26,7 @@ export default function UploadArea() {
     if (!files) return;
     const glbFiles = Array.from(files).filter((f) => f.name.endsWith(".glb"));
     if (glbFiles.length === 0) {
-      alert("Please upload a .glb file only.");
+      toast.warning("Please upload .glb files only.");
       return;
     }
     for (const file of glbFiles) {
@@ -40,10 +40,10 @@ export default function UploadArea() {
       formData.append("thumbnail", thumbnailBlob, "thumbnail.png");
 
       try {
-        const result = await uploadModelAction(formData);
-        console.log("Upload success:", result);
+        await uploadModelAction(formData);
+        toast.success("Upload success:");
       } catch (err) {
-        console.error("Upload failed", err);
+        toast.error("Upload failed");
       }
     }
   };

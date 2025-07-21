@@ -14,7 +14,6 @@ export async function uploadModelAction(formData: FormData) {
   const file = formData.get("file") as File;
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `${uuid()}.glb`;
   const thumBytes = await thumbnail.arrayBuffer();
   const thumBuffer = Buffer.from(thumBytes);
   const sizeInMB = file.size / 1024;

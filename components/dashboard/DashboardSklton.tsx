@@ -3,27 +3,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Controls Skeleton */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <Skeleton className="h-10 w-full" />
-          </div>
-          <div className="flex gap-2">
-            <Skeleton className="h-10 w-10" />
-            <Skeleton className="h-10 w-10" />
-          </div>
+    <>
+      {/* Controls Skeleton */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="flex-1">
+          <Skeleton className="h-10 w-full  border border-gray-200" />
         </div>
-
-        {/* Models Grid Skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <ModelCardSkeleton key={index} />
-          ))}
+        <div className="flex gap-2">
+          <Skeleton className="h-10 w-10 border border-gray-200" />
+          <Skeleton className="h-10 w-10 border border-gray-200" />
         </div>
       </div>
-    </div>
+
+      {/* Models Grid Skeleton */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <ModelCardSkeleton key={index} />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -32,11 +30,11 @@ export function ModelCardSkeleton() {
     <Card className="hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group bg-secondary dark:border-gray-700">
       <CardContent className="p-4">
         <div className="aspect-square mb-2">
-          <Skeleton className="w-full h-full object-cover rounded bg-gray-100 dark:bg-gray-700" />
+          <Skeleton className="w-full h-full object-cover rounded bg-gray-100 dark:bg-gray-700 border border-gray-200 " />
         </div>
-        <div className="flex justify-between items-center text-gray-500 dark:text-gray-400 mb-2">
+        <div className="flex justify-between items-center text-gray-500 dark:text-gray-400 mb-2 border border-gray-200">
           <span>
-            <Skeleton className="h-4 w-32 mb-1" />
+            <Skeleton className="h-4 w-32 mb-1 border border-gray-200" />
           </span>
           <span className="text-xs">
             <Skeleton className="h-4 w-20" />
