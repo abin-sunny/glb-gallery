@@ -5,11 +5,3 @@ export const fetchmodels = async () => {
   }
   return response.json();
 }
-
-// export const deletemodels=async ()=>
-//   {
-//     const response = await fetch("");
-//     if (!response) {
-//       throw new Error("Failed to delete model");
-//     }
-//   }
