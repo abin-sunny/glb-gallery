@@ -24,25 +24,24 @@ export function DashboardSkeleton() {
     </>
   );
 }
-
 export function ModelCardSkeleton() {
   return (
     <Card className="hover:shadow-lg dark:hover:shadow-gray-900/50 transition-shadow group bg-secondary dark:border-gray-700">
       <CardContent className="p-4">
         <div className="aspect-square mb-2">
-          <Skeleton className="w-full h-full object-cover rounded bg-gray-100 dark:bg-gray-700 border border-gray-200 " />
+          <Skeleton className="w-full h-full object-cover rounded bg-gray-200 dark:bg-gray-700" />
         </div>
-        <div className="flex justify-between items-center text-gray-500 dark:text-gray-400 mb-2 border border-gray-200">
+        <div className="flex justify-between items-center text-gray-500 dark:text-gray-400 mb-2">
           <span>
-            <Skeleton className="h-4 w-32 mb-1 border border-gray-200" />
+            <Skeleton className="h-4 w-32 mb-1" />
           </span>
           <span className="text-xs">
-            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20 " />
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <Skeleton className="h-6 w-16 rounded dark:bg-gray-700" />
-          <Skeleton className="h-8 w-8 rounded" />
+          <Skeleton className="h-6 w-16 rounded dark:bg-gray-700 bg-gray-200 " />
+          <Skeleton className="h-8 w-8 rounded dark:bg-gray-700 bg-gray-200" />
         </div>
       </CardContent>
     </Card>

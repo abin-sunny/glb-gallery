@@ -73,7 +73,6 @@ export default function ModelList({ models }: ModelListProps) {
               </div>
             </Link>
 
-            {/* Delete Button */}
             <div className="flex-shrink-0">
               <AlertDialog>
                 <AlertDialogTrigger>
